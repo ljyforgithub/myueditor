@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ueditor demo</title>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		.btn1 {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width:40%;
+			height:50px;
+		}
+	</style>
+</head>
+
+<body>
+	<form action="">
+		<div class="input-group">
+			<span class="input-group-addon" id="basic-addon1">-^-</span>
+			<input type="text" id="cname" name="cname" class="form-control" placeholder="餐厅名" aria-describedby="basic-addon1"  />
+			<span class="input-group-addon" id="basic-addon1">-_-</span>
+			<input type="text" id="wname" name="wname" class="form-control" placeholder="文章名" aria-describedby="basic-addon1"  />
+		</div>
+
+		<!-- 加载编辑器的容器 -->
+		<script id="container" name="content" type="text/plain">
+
+		</script>
+		<button type="button" class=" btn1 btn btn-primary btn-lg btn-block" onclick="sendContent()">
+	发布
+	</button>
+	<button type="button" class=" btn1 btn btn-primary btn-lg btn-block" onclick="getContent()">获得内容</button>
+	</form>
+	<!-- 配置文件 -->
+	<script type="text/javascript" src="ueditor.config.js"></script>
+	<!-- 编辑器源码文件 -->
+	<script type="text/javascript" src="ueditor.all.js"></script>
+	<script type="text/javascript" src="url.js"></script>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- 实例化编辑器 -->
+	<script type="text/javascript">
+		var ue = UE.getEditor('container', {
+			autoHeight: false,
+		});
+
+		function sendContent() {
+			var arr = [];
+			var content = UE.getEditor('container').getContent();
+			var wname = $("input[name='wname']").val();
+			var name =$("input[name='cname']").val();
+			console.info(wname);
+			console.info(cname);
+			$.ajax({
+				type: "POST",
+				url: "/ueditor1/savehtml",
+				data: "text=" + content +"&wname="+wname+"&cname="+cname,
+				success: function (e) {
+					alert(e);
+				}
+			});
+		}
+		function getContent() {
+	        var arr = [];
+	        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+	        arr.push("内容为：");
+	        arr.push(ue.getContent());
+	        alert(arr.join("\n"));
+	    }
+	</script>
+	<script type="text/javascript">
+	var name =$("#cname").val();
+		function testname() {
+			cname = $("input").val();
+			
+			$.ajax({
+				type: "POST",
+				url: "/ueditor1/testname",
+				data: "name=" + cname,
+				success: function (e) {
+						alert("id="+e)
+				}
+			})
+		}
+	</script>
+	
+</body>
+
+</html>

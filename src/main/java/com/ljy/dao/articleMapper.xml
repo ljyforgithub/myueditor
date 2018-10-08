@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljy.dao.ArticleMapper">
+<insert id="insertArticle"
+          parameterType="com.ljy.model.Article">
+          <selectKey keyProperty="id" resultType="String" order="BEFORE">
+          select replace(uuid(),'-','') from dual
+          </selectKey>
+    insert into article (id,name,content,shopid)
+    values (#{id},#{name},#{content},#{shopid})
+  </insert>
+  <select id="selectByname" parameterType="String" resultType="com.ljy.model.Article">
+  SELECT * FROM article WHERE name=#{name}
+  </select>
+</mapper>
